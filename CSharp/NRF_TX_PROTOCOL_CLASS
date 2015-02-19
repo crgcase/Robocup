@@ -1,0 +1,160 @@
+
+// Hassan Niazi
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SerialControl
+{
+    class Nrf_TX
+    {
+        byte [] network = new byte[4];
+        byte robotID;
+        byte[] velocityWheels = new byte[4];
+        byte[] directionWheels = new byte[4];
+        byte kickorchip;
+        byte kickIntensity;
+        byte forceDribbler;
+
+        public Nrf_TX()
+        {
+           
+            network[0] = 0;
+            network[1] = 0;
+            network[2] = 0;
+            network[3] = 0;
+         
+            robotID = 0;
+            velocityWheels[0] = 0;
+            velocityWheels[1] = 0;
+            velocityWheels[2] = 0;
+            velocityWheels[3] = 0;
+            directionWheels[0] = 0;
+            directionWheels[1] = 0;
+            directionWheels[2] = 0;
+            directionWheels[3] = 0;
+            kickorchip = 0;
+            kickIntensity = 0;
+            forceDribbler = 0;
+        }
+        
+        public Nrf_TX(byte roboID)
+        {
+            network[0] = 0;
+            network[1] = 0;
+            network[2] = 0;
+            network[3] = 0;
+            ////
+            robotID = roboID;
+            ////
+            velocityWheels[0] = 0;
+            velocityWheels[1] = 0;
+            velocityWheels[2] = 0;
+            velocityWheels[3] = 0;
+            directionWheels[0] = 0;
+            directionWheels[1] = 0;
+            directionWheels[2] = 0;
+            directionWheels[3] = 0;
+            kickorchip = 0;
+            kickIntensity = 0;
+            forceDribbler = 0;
+        }
+
+        public void setRobotID(char ID)
+        {
+            robotID = (byte)ID;
+        }
+
+        public string setNetworkID(string preamble)
+        {
+            if(preamble.Length == 4)
+            {
+                network =Encoding.ASCII.GetBytes( preamble.ToCharArray());
+                return "Success";
+            }
+            else
+            {
+                return "Invalid Network ID : NID must be 4 char long.";
+            }
+            
+        }
+
+        public void setVelocity(byte[] vel,byte[] dir)
+        {
+            velocityWheels = vel;
+            directionWheels = dir;
+        }
+
+        public void setKickOrChip(char k)
+        {
+            kickorchip = (byte)k;
+        }
+
+        public void setKickIntensity(byte I)
+        {
+            kickIntensity = I;
+        }
+
+        public void setForceDribbler(char f)
+        {
+            forceDribbler = (byte)f;
+        }
+
+        public void cclearKick()
+        {
+            kickorchip = 0;
+        }
+
+        public void cclear()
+        {
+            robotID = 0;
+            velocityWheels[0] = 0;
+            velocityWheels[1] = 0;
+            velocityWheels[2] = 0;
+            velocityWheels[3] = 0;
+            directionWheels[0] = 0;
+            directionWheels[1] = 0;
+            directionWheels[2] = 0;
+            directionWheels[3] = 0;
+            kickorchip = 0;
+            kickIntensity = 0;
+            forceDribbler = 0;
+        }
+
+        public void cclearAll()
+        {
+            network[0] = 0;
+            network[1] = 0;
+            network[2] = 0;
+            network[3] = 0;
+            robotID = 0;
+            velocityWheels[0] = 0;
+            velocityWheels[1] = 0;
+            velocityWheels[2] = 0;
+            velocityWheels[3] = 0;
+            directionWheels[0] = 0;
+            directionWheels[1] = 0;
+            directionWheels[2] = 0;
+            directionWheels[3] = 0;
+            kickorchip = 0;
+            kickIntensity = 0;
+            forceDribbler = 0;
+        }
+
+        public string getPacketString()
+        {
+            return ">> \n" + "NetworkID : " + ((char)network[0]).ToString() + ((char)network[1]).ToString() + ((char)network[2]).ToString() + ((char)network[3]).ToString() + "\n" + "RobotID : " + ((char)robotID).ToString() + "\nWheels Velocity : " + ((char)velocityWheels[0]).ToString() + ((char)velocityWheels[1]).ToString() + ((char)velocityWheels[2]).ToString() + ((char)velocityWheels[3]).ToString() + "\nWheels Direction : " + ((char)directionWheels[0]).ToString() + ((char)directionWheels[1]).ToString() + ((char)directionWheels[2]).ToString() + ((char)directionWheels[3]).ToString() + "\nKick or Chip : " + ((char)kickorchip).ToString() +"\nKick Intensity : " + ((char)kickIntensity).ToString()+ "\nForce Dribbler :"+((char)forceDribbler ).ToString() +"\n<<";
+        }
+
+        public byte[] getPacket()
+        {
+            byte [] brr = {network[0],network[1],network[2],network[3],robotID,velocityWheels[0],velocityWheels[1],
+                              velocityWheels[2],velocityWheels[3],directionWheels[0],directionWheels[1],directionWheels[2],
+                          directionWheels[3],kickorchip,kickIntensity,forceDribbler};
+            return brr;
+        }
+    }
+}
